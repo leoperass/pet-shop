@@ -16,7 +16,7 @@ const Component = ({ title }: Props) => {
 export default function Home() {
   return (
     <div>
-      <h2>TESTE 2</h2>
+      <h2>TESTE 3</h2>
 
       <Component title={1} />
     </div>
