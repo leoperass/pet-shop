@@ -1,14 +1,17 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Inter_Tight, Inter, Geist } from 'next/font/google';
 import './globals.css';
+import { cn } from '@/lib/utils';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
+
+const interTight = Inter_Tight({
+  variable: '--font-inter-tight',
   subsets: ['latin'],
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const inter = Inter({
+  variable: '--font-inter',
   subsets: ['latin'],
 });
 
@@ -21,7 +24,14 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={cn(
+        'h-full',
+        'antialiased',
+        inter.variable,
+        interTight.variable,
+        'font-sans',
+        geist.variable
+      )}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
