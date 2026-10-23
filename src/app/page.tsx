@@ -2,8 +2,8 @@ import { PeriodSection } from '@/components/period-section';
 import { APPOINTMENT_DATA, groupAppointmentByPeriod } from '@/utils';
 
 export default async function Home() {
-  // const appoint = await prisma.appointment.findMany()
-  // console.log(appoint);
+  // const appointment = await prisma.appointment.findMany()
+  // console.log(appointment);
 
   const periods = groupAppointmentByPeriod(APPOINTMENT_DATA);
 
