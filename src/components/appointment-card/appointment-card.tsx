@@ -37,7 +37,7 @@ export const AppointmentCard = ({
         </div>
       </div>
 
-      <div className="text-left pr-4 md:block mt-1 md:mt-0 col-span-2 md:col-span-1">
+      <div className="text-left hidden pr-4 md:block mt-1 md:mt-0 col-span-2 md:col-span-1">
         <span className="text-paragraph-medium text-content-secondary">
           {appointment.description}
         </span>
