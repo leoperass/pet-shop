@@ -1,4 +1,5 @@
 'use client';
+import { cva, VariantProps } from 'class-variance-authority';
 
 import * as React from 'react';
 import { Dialog as DialogPrimitive } from '@base-ui/react/dialog';
@@ -23,39 +24,82 @@ function DialogClose({ ...props }: DialogPrimitive.Close.Props) {
   return <DialogPrimitive.Close data-slot="dialog-close" {...props} />;
 }
 
+// DialogOverlayVariants
+
+const dialogOverlayVariants = cva(
+  'fixed inset-0 z-50 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0',
+  {
+    variants: {
+      variant: {
+        default: 'bg-black/50',
+        blurred: 'bg-black/40 backdrop-blur-[2px]',
+        dark: 'bg-black/60',
+        light: 'bg-black/30',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+    },
+  }
+);
+
 function DialogOverlay({
   className,
+  variant,
   ...props
-}: DialogPrimitive.Backdrop.Props) {
+}: DialogPrimitive.Backdrop.Props &
+  VariantProps<typeof dialogOverlayVariants>) {
   return (
     <DialogPrimitive.Backdrop
       data-slot="dialog-overlay"
-      className={cn(
-        'fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0',
-        className
-      )}
+      className={cn(dialogOverlayVariants({ variant }), className)}
       {...props}
     />
   );
 }
 
+// DialogContent variants
+
+const dialogContentVariants = cva(
+  'fixed top-1/2 left-1/2 z-50 grid w-full -translate-x-1/2 -translate-y-1/2 gap-4 p-6 shadow-lg duration-200',
+  {
+    variants: {
+      variant: {
+        default:
+          'bg-background border rounded-lg max-w-[calc(100%-2rem)] sm:max-w-lg',
+
+        appointment:
+          'bg-background-tertiary border-none rounded-lg max-w-[calc(100%-2rem)] sm:max-w-[477px] max-h-[90vh] overflow-y-auto',
+        large:
+          'bg-background border rounded-lg max-w-[calc(100%-2rem)] sm:max-w-2xl',
+        fullscreen:
+          'bg-background border rounded-lg max-w-[calc(100%-1rem)] max-h-[calc(100%-1rem)] sm:max-w-4xl sm:max-h-[90vh] overflow-y-auto',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+    },
+  }
+);
+
 function DialogContent({
   className,
   children,
   showCloseButton = true,
+  variant,
+  overlayVariant,
   ...props
-}: DialogPrimitive.Popup.Props & {
-  showCloseButton?: boolean;
-}) {
+}: DialogPrimitive.Popup.Props &
+  VariantProps<typeof dialogContentVariants> & {
+    showCloseButton?: boolean;
+    overlayVariant?: VariantProps<typeof dialogOverlayVariants>['variant'];
+  }) {
   return (
     <DialogPortal>
-      <DialogOverlay />
+      <DialogOverlay variant={overlayVariant} />
       <DialogPrimitive.Popup
         data-slot="dialog-content"
-        className={cn(
-          'fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-popover p-4 text-sm text-popover-foreground ring-1 ring-foreground/10 duration-100 outline-none sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95',
-          className
-        )}
+        className={cn(dialogContentVariants({ variant }), className)}
         {...props}
       >
         {children}
@@ -79,11 +123,30 @@ function DialogContent({
   );
 }
 
-function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
+// DialogHeader variants
+
+const dialogHeaderVariants = cva('flex flex-col gap-2', {
+  variants: {
+    align: {
+      left: 'text-left',
+      center: 'text-center sm:text-left',
+      right: 'text-right',
+    },
+  },
+  defaultVariants: {
+    align: 'center',
+  },
+});
+
+function DialogHeader({
+  className,
+  align,
+  ...props
+}: React.ComponentProps<'div'> & VariantProps<typeof dialogHeaderVariants>) {
   return (
     <div
       data-slot="dialog-header"
-      className={cn('flex flex-col gap-2', className)}
+      className={cn(dialogHeaderVariants({ align }), className)}
       {...props}
     />
   );
@@ -116,27 +179,63 @@ function DialogFooter({
   );
 }
 
-function DialogTitle({ className, ...props }: DialogPrimitive.Title.Props) {
+// DialogTitle variants
+
+const dialogTitleVariants = cva('leading-none font-semibold', {
+  variants: {
+    size: {
+      sm: 'text-base',
+      default: 'text-lg',
+      lg: 'text-xl',
+      xl: 'text-2xl',
+      modal: 'text-title-modal',
+    },
+  },
+  defaultVariants: {
+    size: 'default',
+  },
+});
+
+function DialogTitle({
+  className,
+  size,
+  ...props
+}: DialogPrimitive.Title.Props & VariantProps<typeof dialogTitleVariants>) {
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
-      className={cn('text-base leading-none font-medium', className)}
+      className={cn(dialogTitleVariants({ size }), className)}
       {...props}
     />
   );
 }
 
+// DialogDescription Variants
+
+const dialogDescriptionVariants = cva('', {
+  variants: {
+    size: {
+      sm: 'text-xs',
+      default: 'text-sm',
+      lg: 'text-base',
+      modal: 'text-paragraph-medium',
+    },
+  },
+  defaultVariants: {
+    size: 'default',
+  },
+});
+
 function DialogDescription({
   className,
+  size,
   ...props
-}: DialogPrimitive.Description.Props) {
+}: DialogPrimitive.Description.Props &
+  VariantProps<typeof dialogDescriptionVariants>) {
   return (
     <DialogPrimitive.Description
       data-slot="dialog-description"
-      className={cn(
-        'text-sm text-muted-foreground *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground',
-        className
-      )}
+      className={cn(dialogDescriptionVariants({ size }), className)}
       {...props}
     />
   );

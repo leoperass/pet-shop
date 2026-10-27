@@ -163,4 +163,11 @@
     line-height: var(--text-link-line-height);
     font-weight: var(--text-link-weight);
   }
+
+  .text-title-modal {
+    font-family: var(--font-family-title);
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 700;
+  }
 }

@@ -13,15 +13,22 @@ import {
 export const AppointmentForm = () => {
   return (
     <Dialog>
-      <DialogTrigger render={<Button variant="brand" />}>
+      <DialogTrigger
+        render={
+          <Button
+            variant="brand"
+            className="uppercase px-6 py-6 cursor-pointer"
+          />
+        }
+      >
         Novo Agendamento
       </DialogTrigger>
 
-      <DialogContent>
+      <DialogContent variant="appointment" overlayVariant="blurred">
         <DialogHeader>
-          <DialogTitle>Agende um atendimento</DialogTitle>
+          <DialogTitle size="modal">Agende um atendimento</DialogTitle>
 
-          <DialogDescription>
+          <DialogDescription size="modal">
             Preencha os dados do cliente para realizar um atendimento:
           </DialogDescription>
         </DialogHeader>
