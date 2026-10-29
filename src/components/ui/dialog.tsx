@@ -3,7 +3,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 
 import * as React from 'react';
 import { Dialog as DialogPrimitive } from '@base-ui/react/dialog';
-import { cn } from 'cn';
+import { cn } from '@/lib/utils';
 
 import { Button } from '@/components/ui/button';
 import { XIcon } from 'lucide-react';
@@ -218,7 +218,7 @@ const dialogDescriptionVariants = cva('', {
       sm: 'text-xs',
       default: 'text-sm',
       lg: 'text-base',
-      modal: 'text-paragraph-medium',
+      modal: 'text-paragraph-medium text-content-secondary',
     },
   },
   defaultVariants: {
