@@ -13,7 +13,7 @@ const periodIcons = {
 };
 
 export const PeriodSection = ({ period }: PeriodSectionProps) => {
-  console.log(period);
+  // console.log(period);
   return (
     <section className="mb-8 bg-background-tertiary rounded-xl">
       <div className="flex justify-between items-center px-5 py-3 border-b border-[#2e2c30]">
