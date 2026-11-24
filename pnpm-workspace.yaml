@@ -1,5 +1,6 @@
 allowBuilds:
   '@prisma/engines': true
+  core-js-pure: false
   esbuild: true
   lefthook: false
   msgpackr-extract: true
